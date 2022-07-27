@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import axios from "axios"
 import TrackResult from './TrackResult'
 import Player from './Player'
+import SendVideo from './SendVideo'
 
 import { Container, Form } from "react-bootstrap"
 
@@ -22,9 +23,10 @@ function Dashboard({ code }) {
         axios.post('http://localhost:8000/songs', {
             accessToken,
         }).then(res => {
+            console.log(res.data)
             setTopTracks(
-                res.data.items.map(item => {
-                    let track = item.track
+                res.data.map(track => {
+                    // let track = item.track
                     const smallImage = track.album.images.reduce(
                         (smallest, image) => {
                             if (image.height < smallest.height) return image
@@ -74,7 +76,7 @@ function Dashboard({ code }) {
             <div>
                 <Player accessToken={accessToken} songUri={playingSong?.uri} />
             </div>
-
+            <SendVideo />
         </Container>
     )
 }
