@@ -24,21 +24,21 @@ export default function useAuth(code) {
     // useEffect(() => {
     //     if (!refreshToken || !expiresIn) return
     //     const interval = setInterval(() => {
-    //       axios
-    //         .post("http://localhost:8000/refresh", {
-    //           refreshToken,
-    //         })
-    //         .then(res => {
-    //           setAccessToken(res.data.accessToken)
-    //           setExpiresIn(res.data.expiresIn)
-    //         })
-    //         .catch(() => {
-    //           window.location = "/"
-    //         })
+    //         axios
+    //             .post("http://localhost:8000/refresh", {
+    //                 refreshToken,
+    //             })
+    //             .then(res => {
+    //                 setAccessToken(res.data.accessToken)
+    //                 setExpiresIn(res.data.expiresIn)
+    //             })
+    //             .catch(() => {
+    //                 window.location = "/"
+    //             })
     //     }, (expiresIn - 60) * 1000)
-    
+
     //     return () => clearInterval(interval)
-    //   }, [refreshToken, expiresIn])
+    // }, [refreshToken, expiresIn])
 
     return accessToken
 }

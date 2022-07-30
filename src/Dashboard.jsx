@@ -6,27 +6,53 @@ import TrackResult from './TrackResult'
 import Player from './Player'
 import SendVideo from './SendVideo'
 
-import { Container, Form } from "react-bootstrap"
+import { Container } from "react-bootstrap"
 
 function Dashboard({ code }) {
     const accessToken = useAuth(code);
     const [topTracks, setTopTracks] = useState([])
-    const [playingSong, setPlayingSong] = useState()
+    const [playingSong, setPlayingSong] = useState();
+    const [emotionHistory, setEmotionHistory] = useState([]);
+    const [showWebcam, setShowWebcam] = useState(true);
 
     function chooseTrack(track) {
-        setPlayingSong(track)
+        setPlayingSong(track);
+        let tracks = JSON.parse(JSON.stringify(topTracks));
+        for (let i = 0; i < tracks.length; i++) {
+            if (tracks[i].uri === track.uri) {
+                tracks[i].played = true;
+                break
+            }
+        }
+        setTopTracks(tracks);
+        setShowWebcam(false);
     }
 
-    // console.log(playingSong?.uri)
+    function fetchNextTrack() {
+        console.log("Should Set Next Track")
+        setShowWebcam(true);
+        setTimeout(() => {
+            setShowWebcam(false);
+            let emotion = "Happy";
+            let tracks = JSON.parse(JSON.stringify(topTracks));
+            for (let i = 0; i < tracks.length; i++) {
+                if (tracks[i].emotion === emotion && !tracks[i].played) {
+                    setPlayingSong(tracks[i]);
+                    console.log("Song Set")
+                    tracks[i].played = true;
+                    break;
+                }
+            }
+            setTopTracks(tracks)
+        }, 15000)
+    }
 
     useEffect(() => {
         axios.post('http://localhost:8000/songs', {
             accessToken,
         }).then(res => {
-            console.log(res.data)
             setTopTracks(
                 res.data.map(track => {
-                    // let track = item.track
                     const smallImage = track.album.images.reduce(
                         (smallest, image) => {
                             if (image.height < smallest.height) return image
@@ -39,25 +65,11 @@ function Dashboard({ code }) {
                         title: track.name,
                         uri: track.uri,
                         albumUrl: smallImage.url,
+                        emotion: track.mood,
+                        played: false
                     }
                 })
             )
-            // setTopTracks(res.data.map(track => {
-            //     const smallImage = track.album.images.reduce(
-            //         (smallest, image) => {
-            //             if (image.height < smallest.height) return image
-            //             return smallest
-            //         },
-            //         track.album.images[0]
-            //     )
-            //     return {
-            //         artist: track.artists[0].name,
-            //         title: track.name,
-            //         uri: track.uri,
-            //         albumUrl: smallImage.url,
-            //     }
-
-            // }))
         })
 
     }, [accessToken]);
@@ -74,9 +86,10 @@ function Dashboard({ code }) {
                 ))}
             </div>
             <div>
-                <Player accessToken={accessToken} songUri={playingSong?.uri} />
+                <Player accessToken={accessToken} songUri={playingSong?.uri} fetchNextTrack={fetchNextTrack} />
             </div>
-            <SendVideo />
+            {showWebcam ? <SendVideo setEmotionHistory={setEmotionHistory} /> : <></>}
+            {/* <button onClick={() => setShowWebcam(!showWebcam)}>Capture photo</button> */}
         </Container>
     )
 }
