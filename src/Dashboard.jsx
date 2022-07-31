@@ -64,7 +64,7 @@ function Dashboard({ code }) {
                     title: track.name,
                     uri: track.uri,
                     albumUrl: smallImage.url,
-                    emotion: track.mood,
+                    emotion: track.mood === "aggressive"? "angry": track.mood === "calm"? "neutral" : track.mood,
                     played: false
                 }
             })
