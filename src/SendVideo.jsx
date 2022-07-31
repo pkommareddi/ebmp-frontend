@@ -4,7 +4,7 @@ import * as tf from "@tensorflow/tfjs";
 import * as blazemodel from "@tensorflow-models/blazeface";
 
 
-function SendVideo({ setEmotionHistory }) {
+function SendVideo({ setEmotion }) {
 
     const webcamRef = useRef(null);
 
@@ -47,8 +47,8 @@ function SendVideo({ setEmotionHistory }) {
             // listen to data sent from the websocket server
             // const image_id = document.getElementById('image');
             // image_id.src = evt.data;
-            setEmotionHistory(evt.data);
-            console.log(evt.data);
+            setEmotion(evt.data);
+            // console.log(evt.data);
         }
 
         // ws.onclose = () => {
