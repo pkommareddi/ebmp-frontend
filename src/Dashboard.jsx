@@ -12,7 +12,7 @@ function Dashboard({ code }) {
     const accessToken = useAuth(code);
     const [topTracks, setTopTracks] = useState([])
     const [playingSong, setPlayingSong] = useState();
-    const [emotion, setEmotion] = useState();
+    const [emotion, setEmotion] = useState({counter: 0});
     const [showWebcam, setShowWebcam] = useState(false);
 
     function chooseTrack(track) {
@@ -29,17 +29,14 @@ function Dashboard({ code }) {
     }
 
     function fetchNextTrack() {
-        console.log("Should Set Next Track")
         setShowWebcam(true);
     }
 
     useEffect(() => {
-        console.log("Hello")
         let tracks = JSON.parse(JSON.stringify(topTracks));
         for (let i = 0; i < tracks.length; i++) {
-            if (tracks[i].emotion === emotion && !tracks[i].played) {
+            if (tracks[i].emotion === emotion.mood && !tracks[i].played) {
                 setPlayingSong(tracks[i]);
-                console.log("Song Set")
                 tracks[i].played = true;
                 break;
             }

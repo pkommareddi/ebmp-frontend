@@ -41,17 +41,22 @@ function SendVideo({ setEmotion, setShowWebcam }) {
         var ws = new WebSocket("ws://127.0.0.1:8000/ws");
         ws.onopen = () => {
             // on connecting, do nothing but log it to the console
-            console.log('WS Connection Opened')
+            // console.log('WS Connection Opened')
         }
         ws.onmessage = evt => {
             // listen to data sent from the websocket server
             // const image_id = document.getElementById('image');
             // image_id.src = evt.data;
-            setEmotion(evt.data);
+            setEmotion((state) => {
+                return {
+                    counter: state.counter + 1,
+                    mood: evt.data
+                }
+            });
             ws.close()
             setShowWebcam(false)
-            console.log('WS Connection Terminated');
-            // console.log(evt.data);
+            // console.log('WS Connection Terminated');
+            console.log(evt.data);
         }
 
         // ws.onclose = () => {
