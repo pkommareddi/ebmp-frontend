@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Webcam from "react-webcam";
 import * as tf from "@tensorflow/tfjs";
 import * as blazemodel from "@tensorflow-models/blazeface";
@@ -25,7 +25,7 @@ function SendVideo({ setEmotion, setShowWebcam }) {
 
                 data = data + "$$$$"
                 const predictions = await model.estimateFaces(video, false);
-                if (predictions.length != 0) {
+                if (predictions.length !== 0) {
                     const start = predictions[0].topLeft.map(Math.floor);
                     const end = predictions[0].bottomRight.map(Math.floor);
                     const size = [end[0] - start[0] + 20, end[1] - start[1] + 60];
@@ -90,11 +90,8 @@ function SendVideo({ setEmotion, setShowWebcam }) {
                     zindex: 9,
                     width: 0,
                     height: 0,
-                    // display: "none"
                 }}
             />
-
-            {/* <img id="image" alt=""></img> */}
         </div>
     );
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function TrackResult({track,chooseTrack}){
+export default function TrackItem({track,chooseTrack}){
 
     function handlePlay() {
         chooseTrack(track)

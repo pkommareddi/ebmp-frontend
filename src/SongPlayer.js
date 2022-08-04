@@ -1,8 +1,7 @@
-import { time } from "@tensorflow/tfjs"
 import { useState, useEffect } from "react"
 import SpotifyPlayer from "react-spotify-web-playback"
 
-export default function Player({ accessToken, songUri, fetchNextTrack }) {
+export default function SongPlayer({ accessToken, songUri, fetchNextTrack }) {
     const [play, setPlay] = useState(false)
     const [timeoutID, setTimeOutID] = useState(undefined)
 

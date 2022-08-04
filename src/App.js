@@ -1,7 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css"
-import Login from "./Login"
+import LoginPage from "./LoginPage"
 import Dashboard from "./Dashboard"
-import SendVideo from "./SendVideo"
 
 const code = new URLSearchParams(window.location.search).get("code")
 
@@ -11,7 +10,7 @@ function App() {
             <Dashboard code={code} />
             
         </>
-    ) : <Login />
+    ) : <LoginPage />
 }
 
 export default App

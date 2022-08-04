@@ -2,8 +2,8 @@ import React from 'react'
 import useAuth from './useAuth'
 import { useState, useEffect } from 'react'
 import axios from "axios"
-import TrackResult from './TrackResult'
-import Player from './Player'
+import TrackItem from './TrackItem'
+import SongPlayer from './SongPlayer'
 import SendVideo from './SendVideo'
 
 import { Container } from "react-bootstrap"
@@ -74,7 +74,7 @@ function Dashboard({ code }) {
         <Container className="d-flex flex-column py-2" style={{ height: "100vh" }}>
             <div className="flex-grow-1 my-2" style={{ overflowY: "auto" }}>
                 {topTracks.map(track => (
-                    <TrackResult
+                    <TrackItem
                         track={track}
                         key={track.uri}
                         chooseTrack={chooseTrack}
@@ -82,7 +82,7 @@ function Dashboard({ code }) {
                 ))}
             </div>
             <div>
-                <Player accessToken={accessToken} songUri={playingSong?.uri} fetchNextTrack={fetchNextTrack} />
+                <SongPlayer accessToken={accessToken} songUri={playingSong?.uri} fetchNextTrack={fetchNextTrack} />
             </div>
             {showWebcam ? <SendVideo setEmotion={setEmotion} setShowWebcam={setShowWebcam} /> : <></>}
         </Container>
